@@ -3,9 +3,9 @@ from django.db.models.fields import NOT_PROVIDED as DJANGO_NOT_PROVIDED
 from haystack import indexes
 from haystack.constants import DJANGO_ID, DOCUMENT_FIELD, ID
 
-from project.dictionary.solr.backend import SolrSearchQuerySet
-from project.dictionary.solr.exception import MultipleResultError, NotFoundError
-from project.dictionary.solr.fields import NestedField, TextGeneralField
+from backend import SolrSearchQuerySet
+from exception import MultipleResultError, NotFoundError
+from fields import NestedField, TextGeneralField
 
 
 class SolrDocument(indexes.SearchIndex):
@@ -116,9 +116,7 @@ class SolrDocument(indexes.SearchIndex):
                 if not field.has_default():
                     if isinstance(relation_field.field, django_models.ForeignKey):
                         field._default = dict()
-                    elif isinstance(
-                        relation_field.field, django_models.ManyToManyField
-                    ):
+                    elif isinstance(relation_field.field, django_models.ManyToManyField):
                         field.is_multivalued = True
                         field._default = list()
                     else:
@@ -133,9 +131,7 @@ class SolrDocument(indexes.SearchIndex):
             setattr(field, "model_field", model_fields_map[field.model_attr])
             if not field.has_default():
                 model_field_default = field.model_field.default
-                if model_field_default is not DJANGO_NOT_PROVIDED and not callable(
-                    model_field_default
-                ):
+                if model_field_default is not DJANGO_NOT_PROVIDED and not callable(model_field_default):
                     field._default = model_field_default
 
     def get_model(self):
@@ -174,9 +170,7 @@ class SolrDocument(indexes.SearchIndex):
                     pk = kwargs.get(pk_name)
                     break
             else:
-                raise AttributeError(
-                    f"One of available pk names must be implemented: {', '.join(pk_fields)}"
-                )
+                raise AttributeError(f"One of available pk names must be implemented: {', '.join(pk_fields)}")
         search = cls.search().filter(**{pk_name: pk})
 
         fields = kwargs.get("fields")
@@ -186,7 +180,5 @@ class SolrDocument(indexes.SearchIndex):
         if not count:
             raise NotFoundError("No items found")
         if count > 1:
-            raise MultipleResultError(
-                f"Multiple records found ({count}). Expected only one."
-            )
+            raise MultipleResultError(f"Multiple records found ({count}). Expected only one.")
         return search.first()
