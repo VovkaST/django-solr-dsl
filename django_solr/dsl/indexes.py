@@ -1,14 +1,14 @@
 from django.db import models as django_models
 from django.db.models.fields import NOT_PROVIDED as DJANGO_NOT_PROVIDED
-from haystack import indexes
 from haystack.constants import DJANGO_ID, DOCUMENT_FIELD, ID
+from haystack.indexes import *
 
-from backend import SolrSearchQuerySet
-from exception import MultipleResultError, NotFoundError
-from fields import NestedField, TextGeneralField
+from .backend import SolrSearchQuerySet
+from .exception import MultipleResultError, NotFoundError
+from .fields import NestedField, TextGeneralField
 
 
-class SolrDocument(indexes.SearchIndex):
+class SolrDocument(SearchIndex):
     """
     Основной класс объявления SOLR-индексов (документов).
     Т.к. при традиционном подходе к поиску основным поисковым полем является
