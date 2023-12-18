@@ -1,0 +1,15 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+{% block object-tools-items %}
+
+  <form action="{% url 'django_solr:index_fetch' %}" method="POST" id="index_fetch_form">
+    {% csrf_token %}
+  </form>
+
+  <li>
+      <a href="#" class="grp-state-focus" onclick="document.getElementById('index_fetch_form').submit();">{% trans "Fetch indexes" %}</a>
+  </li>
+
+  {{ block.super }}
+
+{% endblock %}

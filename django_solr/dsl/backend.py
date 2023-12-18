@@ -2,8 +2,11 @@ from typing import List, Tuple, Union
 
 from django.utils.encoding import force_str
 from haystack.backends import SQ
-from haystack.backends.solr_backend import (SolrEngine, SolrSearchBackend,
-                                            SolrSearchQuery)
+from haystack.backends.solr_backend import (
+    SolrEngine,
+    SolrSearchBackend,
+    SolrSearchQuery,
+)
 from haystack.constants import DEFAULT_ALIAS, DOCUMENT_FIELD
 from haystack.exceptions import NotHandled
 from haystack.models import SearchResult

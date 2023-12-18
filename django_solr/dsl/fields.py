@@ -14,9 +14,7 @@ class NestedField(SearchField):  # noqa F405
         self.properties = kwargs.pop("properties", {})
         super().__init__(*args, indexed=True, stored=True, null=True, **kwargs)
 
-    def get_instances(
-        self, obj, field_name: str
-    ) -> Union[models.QuerySet, models.Model, None]:
+    def get_instances(self, obj, field_name: str) -> Union[models.QuerySet, models.Model, None]:
         """
         Получить связанные по полю объекты в зависимости от типа поля модели.
         Если связанный объект - объект модели (простая связь один-к-одному),
@@ -62,10 +60,7 @@ class NestedField(SearchField):  # noqa F405
         related = self.get_instances(obj, field_name)
         if related:
             if isinstance(related, models.QuerySet):
-                return [
-                    self._instance_to_dict(instance, self.properties)
-                    for instance in related
-                ]
+                return [self._instance_to_dict(instance, self.properties) for instance in related]
             else:
                 return self._instance_to_dict(related, self.properties)
         return None
@@ -119,9 +114,7 @@ class DateTimeField(DateField):
     base_format = datetime
 
     def convert(self, value):
-        if isinstance(value, str) and (
-            match := DATETIME_REGEX.match(value)  # noqa F405
-        ):
+        if isinstance(value, str) and (match := DATETIME_REGEX.match(value)):  # noqa F405
             return datetime_safe.datetime(  # noqa F405
                 int(match.group("year")),
                 int(match.group("month")),

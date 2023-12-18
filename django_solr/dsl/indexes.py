@@ -128,7 +128,8 @@ class SolrDocument(SearchIndex):
                 field.model_attr = field_name
             if field.model_attr in model_fields_map:
                 field.null = model_fields_map[field.model_attr].null
-            setattr(field, "model_field", model_fields_map[field.model_attr])
+            if model_field := model_fields_map.get(field.model_attr):
+                setattr(field, "model_field", model_field)
             if not field.has_default():
                 model_field_default = field.model_field.default
                 if model_field_default is not DJANGO_NOT_PROVIDED and not callable(model_field_default):
