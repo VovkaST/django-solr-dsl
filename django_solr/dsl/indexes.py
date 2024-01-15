@@ -128,7 +128,10 @@ class SolrDocument(SearchIndex):
                 field.model_attr = field_name
             if field.model_attr in model_fields_map:
                 field.null = model_fields_map[field.model_attr].null
-            if model_field := model_fields_map.get(field.model_attr):
+            model_field = model_fields_map.get(field.model_attr)
+            if not model_field and field.model_attr.endswith("_id"):
+                model_field = model_fields_map.get(field.model_attr[:-3])
+            if model_field:
                 setattr(field, "model_field", model_field)
             if not field.has_default():
                 model_field_default = field.model_field.default
