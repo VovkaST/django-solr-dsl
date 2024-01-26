@@ -63,6 +63,10 @@ class NestedField(SearchField):  # noqa F405
                 return [self._instance_to_dict(instance, self.properties) for instance in related]
             else:
                 return self._instance_to_dict(related, self.properties)
+        if related is None:
+            attr = getattr(obj, field_name)
+            if callable(attr):
+                return attr()
         return None
 
 
