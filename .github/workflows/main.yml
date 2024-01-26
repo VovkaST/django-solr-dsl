@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: VovkaST/django-solr-dsl/linter-action/action@24f9b813a7ebb8e39abf682466b121c104ad8c8a
+        uses: VovkaST/django-solr-dsl/linter-action@24f9b813a7ebb8e39abf682466b121c104ad8c8a
         with:
           who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step
