@@ -103,7 +103,7 @@ class SolrDocument(SearchIndex):
                 relation_field = getattr(model, field_name, None)
                 if not relation_field and field.model_attr:
                     relation_field = getattr(model, field.model_attr, None)
-                if not relation_field:
+                if not relation_field or isinstance(relation_field, property) or callable(relation_field):
                     continue
                 related_model = relation_field.field.related_model
                 if related_model is model and hasattr(relation_field, "rel"):
