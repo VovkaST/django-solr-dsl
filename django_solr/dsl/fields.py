@@ -12,6 +12,7 @@ class NestedField(SearchField):  # noqa F405
 
     def __init__(self, *args, **kwargs):
         self.properties = kwargs.pop("properties", {})
+        self.is_multiple = kwargs.pop("is_multiple", False)
         super().__init__(*args, indexed=True, stored=True, null=True, **kwargs)
 
     def get_instances(self, obj, field_name: str) -> Union[models.QuerySet, models.Model, None]:
@@ -68,6 +69,11 @@ class NestedField(SearchField):  # noqa F405
             if callable(attr):
                 return attr()
         return None
+
+    def convert(self, value):
+        if self.is_multiple and not isinstance(value, list):
+            return [value]
+        return value
 
 
 class TextGeneralField(CharField):  # noqa F405
