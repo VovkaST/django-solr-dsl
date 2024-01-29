@@ -1,0 +1,23 @@
+on: [push]
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9.16'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+      - name: Hello world action step
+        id: hello
+        uses: VovkaST/django-solr-dsl/linter-action@24f9b813a7ebb8e39abf682466b121c104ad8c8a
+#        with:
+#          who-to-greet: 'Mona the Octocat'
+
+#      # Use the output from the `hello` step
+#      - name: Get the output time
+#        run: echo "The time was ${{ steps.hello.outputs.time }}"
